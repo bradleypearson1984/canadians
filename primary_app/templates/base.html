@@ -1,0 +1,38 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!-- <script defer src="{% static 'js/script.js' %}"></script> -->
+    {% block title%}
+    <title>Great Canadians</title>
+    {% endblock %}
+</head>
+<body>
+    <header class="navbar-fixed">
+       <nav>
+        <div class="nav-wrapper red darken-1">
+            <a href="/" class="brand-logo left">Canadians</a>
+            <ul class="right">
+                <li><a href="/about">About</a></li>
+            </ul>
+        </div>
+       </nav> 
+    </header>
+    <main class="container">
+        {% block content %} 
+        {% endblock %}
+    </main>
+    <footer class="page-footer red darken-1">
+        <p>All Rights Reserved, Copyright &copy; GreatCanadians 2023 &nbsp;</p>
+    </footer>
+</body>
+</html>
