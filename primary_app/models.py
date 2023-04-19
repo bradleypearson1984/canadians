@@ -20,3 +20,8 @@ class Canadian(models.Model):
 class Snack(models.Model):
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=100) 
+
+class City(models.Model):
+    name = models.CharField(max_length=100)
+    province = models.CharField(max_length=50)
+    

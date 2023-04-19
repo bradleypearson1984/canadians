@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Canadians</title>
+{% endblock %}
+
+{% block content %}
+<h1>Canadians</h1>
+
+{% for canadian in canadians %}
+<a href="{% url 'canadian_detail' canadian.id %}"> 
+
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title"> {{ canadian.name }} </span>
+            <p>Aboot: {{ canadain.description }} </p>
+        </div>
+    </div>
+</a>
+
+{% endfor %}
+{% endblock %}

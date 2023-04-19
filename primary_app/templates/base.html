@@ -11,6 +11,15 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
     />
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        .page-footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+
+        }
+    </style>
     <!-- <script defer src="{% static 'js/script.js' %}"></script> -->
     {% block title%}
     <title>Great Canadians</title>
@@ -22,7 +31,33 @@
         <div class="nav-wrapper red darken-1">
             <a href="/" class="brand-logo left">Canadians</a>
             <ul class="right">
-                <li><a href="/about">About</a></li>
+                <li>
+                    <a href="/about">Aboot</a>
+                </li>
+                {% if user.is_authenticated %}
+                <li>
+                    <a href="{% url 'canadians_index' %}">View All Canadians</a>
+                </li>
+                <li>
+                    <a href="{% url 'canadian_create' %}">Add a Canadian</a>
+                </li>
+                <li>
+                    <a href="{% 'cities_index' %}">View All Cities</a>
+                </li>
+                <li>
+                    <a href="{% url 'city_create' %}">Add a City</a>
+                </li>
+                <li>
+                    <a href="{% url 'logout' %}"> Logout</a>
+                </li>
+                {% else %}
+                <li>
+                    <a href="{% url 'login' %}"> Login</a>
+                </li>
+                <li>
+                    <a href="{% url 'signup' %}">Signup</a>
+                </li>
+                {% endif %}
             </ul>
         </div>
        </nav> 
