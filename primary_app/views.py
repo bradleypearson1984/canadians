@@ -48,7 +48,7 @@ class CanadianCreate(LoginRequiredMixin, CreateView):
 
 class CanadianUpdate(LoginRequiredMixin, UpdateView):
     model = Canadian
-    fields = ('name', 'about', 'hometown')
+    fields = ('name', 'about', 'hometown', 'quote')
     template_name = 'canadians/canadian_form.html'
 
 class CanadianDelete(LoginRequiredMixin, DeleteView):

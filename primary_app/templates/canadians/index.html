@@ -13,6 +13,11 @@
     <div class="card">
         <div class="card-content">
             <span class="card-title"> {{ canadian.name }} </span>
+            {% for photo in canadian.photo_set.all %}
+        <img src="{{ photo.url }}" alt="{{ canadian.name }}" width="200" class="responsive-img card-panel">
+        {%  empty %}
+        <div class="card-panel blue-text center-align">No Photos Uploaded </div>
+        {% endfor %}
         </div>
     </div>
 </a>
