@@ -84,6 +84,17 @@ class CityDelete(LoginRequiredMixin, DeleteView):
     success_url = '/cities'
     template_name = 'cities/city_confirm_delete.html'
 
+def assoc_city(request, canadian_id, city_id):
+    canadian = Canadian.objects.get(id=canadian.id)
+    canadian.city.add(city_id)
+    return redirect('canadian_detail', canadian_id=canadian) 
+
+def unassoc_city(request, canadian_id, city_id):
+    canadian = Canadian.objects.get(id=canadian.id)
+    canadian.city.remove(city_id)
+    return redirect('canadian_detail', canadian_id=canadian) 
+
+
 def signup(request):
     #POST requests
     error_message = ''
