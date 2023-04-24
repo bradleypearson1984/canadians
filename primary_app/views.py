@@ -35,9 +35,10 @@ def canadian_detail(request, canadian_id):
     canadian = Canadian.objects.get(id=canadian_id)
     
     #cities they're GOING TO
-    canadian_city_ids = canadian.cities.all().values_list('id')
+    # canadian_city_ids = canadian.cities.all().values_list('id')
     #cities they CAN go to
-    cities_canadian_can_go = City.objects.exclude(id__in=canadian_city_ids)
+    # cities_canadian_can_go = City.objects.exclude(id__in=canadian_city_ids)
+    cities_canadian_can_go = City.objects.exclude(id__in=canadian.cities.all().values_list('id'))
     return render(request, 'canadians/detail.html', {
         'canadian': canadian,
         'cities': cities_canadian_can_go
@@ -95,13 +96,13 @@ class CityDelete(LoginRequiredMixin, DeleteView):
 @login_required
 def assoc_city(request, canadian_id, city_id):
     canadian = Canadian.objects.get(id=canadian_id)
-    canadian.city.add(city_id)
-    return redirect('canadian_detail', canadian_id=canadian) 
+    canadian.cities.add(city_id)
+    return redirect('canadian_detail', canadian_id=canadian_id) 
 @login_required
 def unassoc_city(request, canadian_id, city_id):
     canadian = Canadian.objects.get(id=canadian_id)
-    canadian.city.remove(city_id)
-    return redirect('canadian_detail', canadian_id=canadian) 
+    canadian.cities.remove(city_id)
+    return redirect('canadian_detail', canadian_id=canadian_id) 
 
 
 def signup(request):

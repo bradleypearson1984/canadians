@@ -44,51 +44,49 @@
         
     </form>
     </div>
-    <hr />
+<hr />
     
     <!-- <div class="row"> -->
-        <div class="col s6">
-            <h5>{{ canadian.name }} is visiting </h5>
-            {% if canadian.cities.count %}
-            {% for city in canadian.cities.all %}
+<div class="col s6">
+    {% if cities.count %}
+    {% for city in canadian.cities.all %}
+    <h5>{{ canadian.name }} is visiting </h5>
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title"> <span class="{{city.name.lower}}"> {{ city.name.capitalize}} </span></span>
+            </div>
+        </div>
+        <div class="card_action">
+            <form action="{% url 'unassoc_city' canadian.id city.id %}" method="POST">
+                {% csrf_token %}
+                <input type="submit" value="Remove" class="btn red">
+            </form>
+        </div>
+        {% endfor %}
+        {% else %}
+        <h5>{{ canadian.name }} doesn't have a plan to visit any cities </h5>
+        {% endif %}
+            <!-- </div> -->
+<!-- <div class="col s6"> -->
+        <h5>Cities {{ canadian.name }} could visit</h5>
+        {% if cities.count %}
+            {% for city in cities %}
             <div class="card">
                 <div class="card-content">
-                    <h3 class="card-title"> {{ city.name}} </h3>
+                    <p class="card-title">how about <span class="{{city.name.lower}}"">{{ city.name.capitalize }} </span> </p>
+                </div>
+                <div class="card-action">        
+                    <form action="{% url 'assoc_city' canadian.id city.id %}" method="POST">
+                        {% csrf_token %}
+                        <input type="submit" value="Add" class="btn blue">
+                    </form>
                 </div>
             </div>
-            <div class="card_action">
-                <form action="{% url 'unassoc_city' canadian.id city.id %}" method="POST">
-                    {% csrf_token %}
-                    <input type="submit" value="Remove" class="btn red">
-                </form>
-            </div>
-            
-            {% endfor %}
-            { % else %}
-            <h5>{{ canadian.name }} doesn't have a plan to visit any cities </h5>
-            {% endif %}
-            <!-- </div> -->
-            <div class="col s6">
-                <h5>Cities {{ canadian.name }} could visit</h5>
-                {% if canadian.cities.count %}
-                {% for city in cities %}
-                <div class="card">
-                    <div class="card-content">
-                        <p class="card-title">how about {{city.name}} </p>
-                    </div>
-                    <div class="card-action">
-                        
-                        <form action="{% url 'assoc_city' canadian.id city.id %}" method="POST">
-                            {% csrf_token %}
-                            <input type="submit" value="Add" class="btn blue">
-                        </form>
-                    </div>
-                </div>
                 
-                {% endfor %}
-                {% else %}
-                <p>{{canadian.name}} is going to all the cities! What a tour!</p>
-                {% endif %}    
+            {% endfor %}
+        {% else %}
+        <p>{{canadian.name}} is going to all the cities! What a tour!</p>
+        {% endif %}    
             </div>
         </div>
     </div>
