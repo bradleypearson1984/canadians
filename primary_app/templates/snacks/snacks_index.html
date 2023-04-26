@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Snacks Index</title>
+{% endblock %}
+
+{% block content %}
+<h1>Snacks Index</h1>
+
+{% for city in cities %}
+<a href="{% url 'snack_detail' snack.id %}"> 
+
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title"> {{ snack.name }} </span>
+        </div>
+    </div>
+</a>
+
+{% endfor %}
+{% endblock %}

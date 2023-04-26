@@ -93,11 +93,46 @@ class CityDelete(LoginRequiredMixin, DeleteView):
     model = City
     success_url = '/cities'
     template_name = 'cities/city_confirm_delete.html'
+
+@login_required 
+def snacks_index(request):
+    snacks = Snack.objects.filter(user=request.user)
+    return render(request, 'snacks/snacks_index.html', {'snacks': snacks})
+
+@login_required 
+def snack_detail(request, snack_id):
+    snack = Snack.objects.get(id=snack_id)
+    return render(request, 'snacks/snack_detail.html', {'snack': snack})
+
+class SnackCreate(LoginRequiredMixin, CreateView):
+    model = Snack
+    fields = ('name', 'about')
+    template_name = 'snacks/snack_form.html'
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+class SnackUpdate(LoginRequiredMixin, UpdateView):
+    model = Snack
+    fields = '__all__'
+    template_name = 'snacks/snack_form.html'
+
+class SnackDelete(LoginRequiredMixin, DeleteView):
+    model = Snack
+    success_url = '/snacks'
+    template_name = 'snacks/snack_confirm_delete.html'
+
+
+
+
+
+
 @login_required
 def assoc_city(request, canadian_id, city_id):
     canadian = Canadian.objects.get(id=canadian_id)
     canadian.cities.add(city_id)
     return redirect('canadian_detail', canadian_id=canadian_id) 
+
 @login_required
 def unassoc_city(request, canadian_id, city_id):
     canadian = Canadian.objects.get(id=canadian_id)

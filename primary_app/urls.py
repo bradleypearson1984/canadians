@@ -17,9 +17,17 @@ urlpatterns = [
     path('cities/<int:pk>/update', views.CityUpdate.as_view(), name='city_update'),
     path('cities/<int:pk>/delete', views.CityDelete.as_view(), name='city_delete'),
 
+    path('snacks/', views.snacks_index, name='snacks_index'),
+    path('snacks/<int:snack_id>/detail', views.snack_detail, name='snack_detail'),
+    path('snacks/create', views.SnackCreate.as_view(), name='snack_create'),
+    path('snacks/<int:pk>/update', views.SnackUpdate.as_view(), name='snack_update'),
+    path('snacks/<int:pk>/delete', views.SnackDelete.as_view(), name='snack_delete'),
+    
     path('canadians/<int:canadian_id>/assoc_city/<int:city_id>/', views.assoc_city, name='assoc_city'),
     path('canadians/<int:canadian_id>/unassoc_city/<int:city_id>/', views.unassoc_city, name='unassoc_city'),
 
     path('accounts/signup', views.signup, name='signup'),
     path('canadians/<int:canadian_id>/add_photo/', views.add_photo, name='add_photo'),
+
+
 ]
