@@ -14,6 +14,18 @@ class City(models.Model):
     
     def __str__(self):
         return self.name 
+    
+class Snack(models.Model):
+    name = models.CharField(max_length=50)
+    about = models.CharField(max_length=100) 
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def get_absolute_url(self):
+        return reverse('snack_detail', kwargs={'snack_id': self.id})
+    
+    def __str__(self):
+        return self.name 
+    
 
 class Canadian(models.Model):
     name = models.CharField(max_length=100)
@@ -51,3 +63,9 @@ class Photo(models.Model):
     def __str__(self):
         return f"photo for canadian_id: {self.canadian_id} @{self.url}"
 
+class CityPhoto(models.Model):
+    url = models.CharField(max_length=200)
+    city = models.ForeignKey(City, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"photo for city_id: {self.city_id} @{self.url}"

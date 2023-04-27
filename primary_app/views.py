@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-from .models import Canadian, Snack, City, Photo
+from .models import Canadian, Snack, City, Photo, CityPhoto
 from django.contrib.auth.forms import UserCreationForm
 # from .forms import FeedingForm 
 
@@ -183,8 +183,27 @@ def add_photo(request, canadian_id):
             Photo.objects.create(url=url, canadian_id=canadian_id)
 
         except Exception as error:
-            print('Sorry, photo upload failed, sorry.')
+            print('Ope, sorry, photo upload failed, sorry.')
             print(error)
         
         return redirect('canadian_detail', canadian_id=canadian_id)
+    
+def add_city_photo(request, city_id):
+    city_photo_file = request.FILES.get('city-photo-file', None)
+
+    if city_photo_file:
+        s3 = boto3.client('s3')
+        key = uuid.uuid4().hex[:6] + city_photo_file.name[city_photo_file.name.rfind('.'):]
+
+        try:
+            s3.upload_fileobj(city_photo_file, BUCKET, key)
+            url = f"{S3_BASE_URL}{BUCKET}/{key}"
+
+            CityPhoto.objects.create(url=url, city_id=city_id)
+
+        except Exception as error:
+            print('Ope, sorry, photo upload failed, sorry.')
+            print(error)
+        
+        return redirect('city_detail', city_id=city_id)
     
