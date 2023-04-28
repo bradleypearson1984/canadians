@@ -34,6 +34,7 @@ class Canadian(models.Model):
     about = models.TextField(max_length=250)
     quote = models.TextField(max_length=250)
     cities = models.ManyToManyField(City)
+    snacks = models.ManyToManyField(Snack)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     
     def get_absolute_url(self):
@@ -42,17 +43,6 @@ class Canadian(models.Model):
     def __str__(self):
         return self.name 
     
-
-class Snack(models.Model):
-    name = models.CharField(max_length=50)
-    about = models.CharField(max_length=100) 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    def get_absolute_url(self):
-        return reverse('snack_detail', kwargs={'snack_id': self.id})
-    
-    def __str__(self):
-        return self.name 
     
 
 

@@ -26,6 +26,10 @@ urlpatterns = [
     path('canadians/<int:canadian_id>/assoc_city/<int:city_id>/', views.assoc_city, name='assoc_city'),
     path('canadians/<int:canadian_id>/unassoc_city/<int:city_id>/', views.unassoc_city, name='unassoc_city'),
 
+    path('canadians/<int:canadian_id>/assoc_snack/<int:snack_id>/', views.assoc_snack, name='assoc_snack'),
+    path('canadians/<int:canadian_id>/unassoc_snack/<int:snack_id>/', views.unassoc_snack, name='unassoc_snack'),
+
+
     path('accounts/signup', views.signup, name='signup'),
     path('canadians/<int:canadian_id>/add_photo/', views.add_photo, name='add_photo'),
     path('cities/<int:city_id>/add_photo/', views.add_city_photo, name='add_city_photo'),

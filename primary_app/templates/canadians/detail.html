@@ -1,94 +1,142 @@
-{% extends 'base.html' %}
-
-{% block title %}
+{% extends 'base.html' %} {% block title %}
 <title>Canadian Detail</title>
-{% endblock %}
-
-    {% block content %}
+{% endblock %} {% block content %}
 <h1>Canadian Detail</h1>
+<br>
 
 <div class="row">
-    <div class="col s6">
-        
-        
-        <div class="card">
-            <div class="card-content">
-                <span class="card-title"> {{ canadian.name }} </span>
-                <p>Aboot: {{ canadian.about }} </p>
-                <p>Hometown: {{ canadian.hometown  }}</p>
-                <p>Quote: {{ canadian.quote  }} </p>
-               
+  <div class="col s4">
+
+      <div class="card">
+          <div class="card-content">
+              <span class="card-title"> {{ canadian.name }} </span>
+              <p>Aboot: {{ canadian.about }}</p>
+              <p>Hometown: {{ canadian.hometown }}</p>
+              <p>Quote: {{ canadian.quote }}</p>
             </div>
             <div class="card-action">
-              {{ canadian.id }}
-              <a href="{% url 'canadian_update' canadian.id %}">Update</a>
-              <a href="{% url 'canadian_delete' canadian.id %}">Delete</a>
+                {{ canadian.id }}
+                <a href="{% url 'canadian_update' canadian.id %}">Update</a>
+                <a href="{% url 'canadian_delete' canadian.id %}">Delete</a>
             </div>
-            
-        </div>        
+        </div>
         {% for photo in canadian.photo_set.all %}
-        <img src="{{ photo.url }}" alt="{{ canadian.name }}" class="responsive-img card-panel">
-        {%  empty %}
-        <div class="card-panel blue-text center-align">No Photos Uploaded </div>
+        <img
+        src="{{ photo.url }}"
+        alt="{{ canadian.name }}"
+        class="responsive-img card-panel"
+        />
+        {% empty %}
+        <div class="card-panel blue-text center-align">No Photos Uploaded</div>
         {% endfor %}
-        <form 
+        <form
         action="{% url 'add_photo' canadian.id %}"
         enctype="multipart/form-data"
         method="POST"
         class="card-panel"
         >
         {% csrf_token %}
-        <input type="file" name="photo-file"/>
+        <input type="file" name="photo-file" />
         <br />
         <input type="submit" class="btn blue" value="Upload Photo" />
-        
-    </form>
-</div>
-<hr />
-    
-    <!-- <div class="row"> -->
-<div class="col s6">
-    {% if cities.count %}
-    {% for city in canadian.cities.all %}
-    <h5>{{ canadian.name }} is visiting </h5>
-        <div class="card">
-            <div class="card-content">
-                <span class="card-title"> <span class="{{city.name.lower}}"> {{ city.name.capitalize}} </span></span>
-            </div>
+        </form>
+    </div>
+
+    <hr />
+
+  <!-- <div class="row"> -->
+  <div class="col s3">
+    {% if cities.count %} {% for city in canadian.cities.all %}
+    <h5>{{ canadian.name }} is visiting</h5>
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">
+          <span class="{{city.name.lower}}">
+            {{ city.name.capitalize}}
+          </span></span
+        >
+      </div>
+    </div>
+    <div class="card_action">
+      <form action="{% url 'unassoc_city' canadian.id city.id %}" method="POST">
+        {% csrf_token %}
+        <input type="submit" value="Remove" class="btn red" />
+      </form>
+    </div>
+    {% endfor %} {% else %}
+    <h5>{{ canadian.name }} doesn't have a plan to visit any cities</h5>
+    {% endif %}
+    <!-- </div> -->
+    <!-- <div class="col s6"> -->
+    <h5>Cities {{ canadian.name }} could visit</h5>
+    {% if cities.count %} {% for city in cities %}
+    <div class="card">
+        <div class="card-content">
+            <p class="card-title">
+            how about
+            <span class="{{city.name.lower}}">{{ city.name.capitalize }}</span>
+            </p>
         </div>
-        <div class="card_action">
-            <form action="{% url 'unassoc_city' canadian.id city.id %}" method="POST">
-                {% csrf_token %}
-                <input type="submit" value="Remove" class="btn red">
+        <div class="card-action">
+            <form action="{% url 'assoc_city' canadian.id city.id %}" method="POST">
+            {% csrf_token %}
+            <input type="submit" value="Add" class="btn blue" />
             </form>
         </div>
-        {% endfor %}
-        {% else %}
-        <h5>{{ canadian.name }} doesn't have a plan to visit any cities </h5>
-        {% endif %}
-            <!-- </div> -->
-<!-- <div class="col s6"> -->
-        <h5>Cities {{ canadian.name }} could visit</h5>
-        {% if cities.count %}
-            {% for city in cities %}
-            <div class="card">
-                <div class="card-content">
-                    <p class="card-title">how about <span class="{{city.name.lower}}"">{{ city.name.capitalize }} </span> </p>
-                </div>
-                <div class="card-action">        
-                    <form action="{% url 'assoc_city' canadian.id city.id %}" method="POST">
-                        {% csrf_token %}
-                        <input type="submit" value="Add" class="btn blue">
-                    </form>
-                </div>
-            </div>
-                
-            {% endfor %}
-        {% else %}
-        <p>{{canadian.name}} is going to all the cities! What a tour!</p>
-        {% endif %}    
-            </div>
-        </div>
     </div>
-        
-        {% endblock %}
+
+    {% endfor %} {% else %}
+    <p>{{canadian.name}} is going to all the cities! What a tour!</p>
+    {% endif %}
+  </div>
+  <hr />
+  
+  <div class="col s3">
+      {% if snacks.count %} {% for snack in canadian.snacks.all %}
+      <h5>{{ canadian.name }} is having some </h5>
+      <div class="card">
+          <div class="card-content">
+              <span class="card-title">
+                  <span class="{{snack.name.lower}}">
+                      {{ snack.name.capitalize}}
+                    </span></span
+                    >
+                </div>
+            </div>
+            <div class="card_action">
+                <form action="{% url 'unassoc_snack' canadian.id snack.id %}" method="POST">
+                    {% csrf_token %}
+                    <input type="submit" value="Remove" class="btn red" />
+                </form>
+            </div>
+            {% endfor %} {% else %}
+            <h5>{{ canadian.name }} seems homesick, they could use a Canadian snack</h5>
+            {% endif %}
+            <!-- </div> -->
+            <!-- <div class="col s6"> -->
+                <h5>Snacks {{ canadian.name }} could have</h5>
+                {% if snacks.count %} {% for snack in snacks %}
+                <div class="card">
+                    <div class="card-content">
+                        <p class="card-title">
+                            how about
+                            <span class="{{snack.name.lower}}">{{ snack.name.capitalize }} </span>
+                        </p>
+                    </div>
+                    <div class="card-action">
+                        <form action="{% url 'assoc_snack' canadian.id snack.id %}" method="POST">
+                            {% csrf_token %}
+                            <input type="submit" value="Add" class="btn blue" />
+                        </form>
+                    </div>
+                </div>
+                
+                {% endfor %} {% else %}
+                <p>{{canadian.name}} has all the Canadian snacks!</p>
+                {% endif %}
+            </div>
+         
+            
+</div>
+            {% endblock %}
+            

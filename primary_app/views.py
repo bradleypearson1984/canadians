@@ -142,6 +142,23 @@ def unassoc_city(request, canadian_id, city_id):
     return redirect('canadian_detail', canadian_id=canadian_id) 
 
 
+@login_required
+def assoc_snack(request, canadian_id, snack_id):
+    canadian = Canadian.objects.get(id=canadian_id)
+    canadian.snacks.add(snack_id)
+    return redirect('canadian_detail', canadian_id=canadian_id) 
+
+@login_required
+def unassoc_snack(request, canadian_id, snack_id):
+    canadian = Canadian.objects.get(id=canadian_id)
+    canadian.snacks.remove(snack_id)
+    return redirect('canadian_detail', canadian_id=canadian_id) 
+
+
+
+
+
+
 def signup(request):
     #POST requests
     error_message = ''
