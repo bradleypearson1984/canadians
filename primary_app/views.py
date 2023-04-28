@@ -5,7 +5,9 @@ from django.views.generic.detail import DetailView
 from django.contrib.auth import login 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseBadRequest
 
+from django.contrib import admin 
 
 from .models import Canadian, Snack, City, Photo, CityPhoto
 from django.contrib.auth.forms import UserCreationForm
@@ -189,6 +191,7 @@ def add_photo(request, canadian_id):
         return redirect('canadian_detail', canadian_id=canadian_id)
     
 def add_city_photo(request, city_id):
+    print('city_id from URL parameter:', city_id)
     city_photo_file = request.FILES.get('city-photo-file', None)
 
     if city_photo_file:
@@ -198,6 +201,7 @@ def add_city_photo(request, city_id):
         try:
             s3.upload_fileobj(city_photo_file, BUCKET, key)
             url = f"{S3_BASE_URL}{BUCKET}/{key}"
+            print(url)
 
             CityPhoto.objects.create(url=url, city_id=city_id)
 
@@ -206,4 +210,5 @@ def add_city_photo(request, city_id):
             print(error)
         
         return redirect('city_detail', city_id=city_id)
-    
+        
+    # return HttpResponseBadRequest('No file was uploaded.')
