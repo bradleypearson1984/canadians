@@ -9,7 +9,7 @@ from django.http import HttpResponseBadRequest
 
 from django.contrib import admin 
 
-from .models import Canadian, Snack, City, Photo, CityPhoto
+from .models import Canadian, Snack, City, Photo, CityPhoto, SnackPhoto
 from django.contrib.auth.forms import UserCreationForm
 # from .forms import FeedingForm 
 
@@ -211,4 +211,24 @@ def add_city_photo(request, city_id):
         
         return redirect('city_detail', city_id=city_id)
         
-    # return HttpResponseBadRequest('No file was uploaded.')
+
+def add_snack_photo(request, snack_id):
+    print('snack_id from URL parameter:', snack_id)
+    snack_photo_file = request.FILES.get('snack-photo-file', None)
+
+    if snack_photo_file:
+        s3 = boto3.client('s3')
+        key = uuid.uuid4().hex[:6] + snack_photo_file.name[snack_photo_file.name.rfind('.'):]
+
+        try:
+            s3.upload_fileobj(snack_photo_file, BUCKET, key)
+            url = f"{S3_BASE_URL}{BUCKET}/{key}"
+            print(url)
+
+            SnackPhoto.objects.create(url=url, snack_id=snack_id)
+
+        except Exception as error:
+            print('Ope, sorry, photo upload failed, sorry.')
+            print(error)
+        
+        return redirect('snack_detail', snack_id=snack_id)

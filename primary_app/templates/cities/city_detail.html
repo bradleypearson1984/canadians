@@ -14,8 +14,8 @@
             <span class="card-title"> {{ city.name }} </span>
             <span class="card-title"> {{ city.province }} </span>
             
-            {% for photo in city.photo_set.all %}
-            <img src="{{ photo.url }}" alt="{{ city.name }}" class="responsive-img card-panel">
+            {% for photo in city.cityphoto_set.all %}
+            <img src="{{ photo.url }}" alt="{{ city.name }}"  class="responsive-img card-panel">
             {%  empty %}
             <div class="card-panel blue-text center-align">No Photos Uploaded </div>
             {% endfor %}

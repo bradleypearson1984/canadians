@@ -69,3 +69,10 @@ class CityPhoto(models.Model):
 
     def __str__(self):
         return f"photo for city_id: {self.city_id} @{self.url}"
+
+class SnackPhoto(models.Model):
+    url = models.CharField(max_length=200)
+    snack = models.ForeignKey(Snack, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"photo for snack_id: {self.snack_id} @{self.url}"

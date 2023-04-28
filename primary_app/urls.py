@@ -29,6 +29,7 @@ urlpatterns = [
     path('accounts/signup', views.signup, name='signup'),
     path('canadians/<int:canadian_id>/add_photo/', views.add_photo, name='add_photo'),
     path('cities/<int:city_id>/add_photo/', views.add_city_photo, name='add_city_photo'),
+    path('snacks/<int:snack_id>/add_photo/', views.add_snack_photo, name='add_snack_photo'),
 
 
 ]

@@ -7,12 +7,17 @@
 {% block content %}
 <h1>Snacks Index</h1>
 
-{% for city in cities %}
+{% for snack in snacks %}
 <a href="{% url 'snack_detail' snack.id %}"> 
 
     <div class="card">
         <div class="card-content">
             <span class="card-title"> {{ snack.name }} </span>
+            {% for photo in snack.snackphoto_set.all %}
+            <img src="{{ photo.url }}" alt="{{ snack.name }}" width="200" class="responsive-img card-panel">
+            {%  empty %}
+            <div class="card-panel blue-text center-align">No Photos Uploaded </div>
+            {% endfor %}
         </div>
     </div>
 </a>
