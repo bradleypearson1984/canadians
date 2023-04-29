@@ -8,6 +8,9 @@
 *Python
 *Django
 *Materialize
+*AWS S3
+*HTML5
+*CSS
 
 ---
 ![Screenshot](https://i.imgur.com/uBevPHy.png)
