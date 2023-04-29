@@ -41,9 +41,11 @@ def canadian_detail(request, canadian_id):
     #cities they CAN go to
     # cities_canadian_can_go = City.objects.exclude(id__in=canadian_city_ids)
     cities_canadian_can_go = City.objects.exclude(id__in=canadian.cities.all().values_list('id'))
+    snacks_canadian_can_have = Snack.objects.exclude(id__in=canadian.snacks.all().values_list('id'))
     return render(request, 'canadians/detail.html', {
         'canadian': canadian,
-        'cities': cities_canadian_can_go
+        'cities': cities_canadian_can_go,
+        'snacks': snacks_canadian_can_have,
         })
 
 
@@ -151,7 +153,7 @@ def assoc_snack(request, canadian_id, snack_id):
 @login_required
 def unassoc_snack(request, canadian_id, snack_id):
     canadian = Canadian.objects.get(id=canadian_id)
-    canadian.snacks.remove(snack_id)
+    canadian.remove(snack_id)
     return redirect('canadian_detail', canadian_id=canadian_id) 
 
 
